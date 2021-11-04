@@ -1,0 +1,49 @@
+# Javascript Node CircleCI 2.0 configuration file
+#
+# Check https://circleci.com/docs/2.0/language-javascript/ for more details
+#
+version: 2
+jobs:
+  build:
+    branches:
+      only:
+        - main
+        - staging
+    docker:
+      # specify the version you desire here
+      - image: circleci/node:10.16
+      - image: circleci/python:3.6.9
+      # Specify service dependencies here if necessary
+      # CircleCI maintains a library of pre-built images
+      # documented at https://circleci.com/docs/2.0/circleci-images/
+      # - image: circleci/mongo:3.4.4
+    working_directory: ~/repo
+    steps:
+      - checkout:
+          path: ~/repo
+      # run deploy
+      - run:
+          name: Setup Environment Variables
+          command: |
+            if [ "${CIRCLE_BRANCH}" = "staging" ]; then
+              echo 'export THEME_KIT_THEME_ID="$SHOPIFY_STAGING_THEME_ID"' >> $BASH_ENV
+            elif [ "${CIRCLE_BRANCH}" = "main" ]; then
+              echo 'export THEME_KIT_THEME_ID="$SHOPIFY_PROD_THEME_ID"' >> $BASH_ENV
+            else
+              echo "not staging or master. no deploy";
+            fi
+            source $BASH_ENV
+            env
+      - run:
+          name: Install and Configure Theme Kit
+          command: curl -s https://shopify.github.io/themekit/scripts/install.py | sudo python && theme configure -s=$SHOPIFY_STORE -p=$SHOPIFY_PASSWORD -t=$THEME_KIT_THEME_ID
+      - run:
+          name: Add Ignore Files to Theme Kit Config
+          command: |
+            echo '  ignore_files:' >> config.yml
+            echo '    - config/settings_data.json' >> config.yml
+            echo '    - config/settings_schema.json' >> config.yml
+            echo '    - theme.shogun.landing.liquid' >> config.yml
+      - deploy:
+          name: Deploy Theme
+          command: theme deploy --allow-live

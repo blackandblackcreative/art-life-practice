@@ -1,0 +1,78 @@
+{% comment %} Translations {% endcomment %}
+{% assign collections_title = 'collections.placeholder.collection_title' | t %}
+{% assign collections_num_items_t = 'collections.placeholder.num_items' | t %}
+{% assign collections_empty_t = 'collections.no_collections_feedback_html' | t %}
+{% assign collections_empty_link_t = 'collections.no_collections_link' | t %}
+{% assign trans_product = 'collections.product' | t %}
+{% assign trans_products = 'collections.products' | t %}
+
+{% assign count = 0 %}
+  {% for collection in collections %}
+    {% unless
+      collection.handle == 'all' or
+      collection.handle == 'all-products' or
+      collection.handle == 'frontpage'
+    %}
+
+      <div class="collection-list--item">
+        <a href="{{ collection.url }}">
+          {% if collection.image %}
+            {% render "framework--image", image: collection.image %}
+          {% elsif collection.products.size > 0 %}
+            {%
+              render "framework--image",
+              image: collection.products.first.featured_media.preview_image
+            %}
+          {% else %}
+            {%
+              render "framework--placeholder",
+              type: "collection",
+              aspect_ratio: 1,
+              placeholder_index: 1
+            %}
+          {% endif %}
+
+          <h3 data-item="block-heading">{{ collection.title }}</h3>
+          <p data-item="accent-text">
+            {{ collection.all_products_count }} {{ collection.all_products_count | pluralize: trans_product, trans_products }}
+          </p>
+
+        </a>
+      </div>
+
+      {% assign count = count | plus: 1 %}
+    {% endunless %}
+
+  {% endfor %}
+
+{% if count == 0 %}
+
+  <div class="collection-list--ph-text">
+    <p>{{ collections_empty_t }}</p>
+    <a data-item="button" href="/admin/collections">
+      <div>{{ collections_empty_link_t }}</div>
+    </a>
+  </div>
+
+  <div
+    class="collection-list--ph-grid"
+    data-container="panel"
+    data-columns="3"
+    data-mobile-columns="1"
+  >
+    {% for i in (1..6) %}
+
+      <div class="collection-list--ph-item">
+        {%
+          render "framework--placeholder",
+          type: "collection",
+          aspect_ratio: 1.333,
+          placeholder_index: i
+        %}
+        <h3 data-item="block-heading">{{ collections_title }}</h3>
+        <p data-item="accent-text">{{ collections_num_items_t }}</p>
+      </div>
+
+    {% endfor %}
+  </div>
+{% endif %}
