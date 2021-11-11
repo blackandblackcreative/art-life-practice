@@ -6,7 +6,7 @@
 
 {% assign alt_color = section.settings.alternative-color %}
 {% assign apply_overlay = section.settings.apply-overlay %}
-{% assign bg_color = section.settings.background-color %}
+{% assign bg_color = section.settings.main-bg-color %}
 {% assign description = section.settings.description %}
 {% assign full_width = section.settings.full-width %}
 {% assign image = section.settings.image %}
@@ -45,7 +45,7 @@
 {% comment %} View {% endcomment %}
 <div
   class="featured-content--root"
-  style="{% render 'framework--background-colors', bg_color: bg_color %}"
+  style="background-color: {{ section.settings.main-bg-color }}"
   data-section-id="{{ section.id }}"
   data-alternative-color="{{ alt_color }}"
   data-apply-overlay="{{ apply_overlay }}"
@@ -87,16 +87,16 @@
       description != blank or
       link_text != blank
     %}
-      <div class="featured-content--text">
+      <div style="background-color: {{ section.settings.featured-content_bg }}"class="featured-content--text">
         <div class="featured-content--text-container">
           {% if title != blank %}
-            <h2 class="featured-content--title" data-item="section-heading">
-              {{ title | escape }}
+            <h2 style="color: {{ section.settings.featured-content-color }}; {% if section.settings.font-slider %}font-size: {{ section.settings.featured-content-size }}px !important;{% endif %}" class="featured-content--title hero--header-font" data-item="section-heading">
+              {{ title }}
             </h2>
           {% endif %}
 
           {% if description != blank %}
-            <div class="featured-content--description" data-item="rte-content">
+            <div style="color: {{ section.settings.featured-content-color-desc }}; font-size: {{ section.settings.featured-content-size-desc }}px " class="featured-content--description" data-item="rte-content">
               {{ description }}
             </div>
           {% endif %}
@@ -135,16 +135,9 @@
       "default": false
     },
     {
-      "id": "background-color",
-      "label": "Background color",
-      "type": "select",
-      "options": [
-        { "label": "None", "value": "none" },
-        { "label": "Light grey", "value": "light" },
-        { "label": "Dark", "value": "dark" },
-        { "label": "Accent", "value": "accent" }
-      ],
-      "default": "light"
+      "id": "main-bg-color",
+      "label": "Main BG Color",
+      "type": "color"
     },
     {
       "id": "text-position",
@@ -216,6 +209,32 @@
       "default": "medium"
     },
     {
+      "id": "featured-content_bg",
+      "label": "Content Background Color",
+      "type": "color"
+    },
+    {
+      "id": "featured-content-color",
+      "label": "Text Color Heading",
+      "type": "color"
+    },
+    {
+    "type": "range",
+    "id": "featured-content-size",
+    "min": 5,
+    "max": 100,
+    "step": 1,
+    "unit": "px",
+    "label": "Text Size",
+    "default": 50
+    },
+
+    {
+      "id": "font-slider",
+      "label": "Use Font Slider",
+      "type": "checkbox"
+    },
+    {
       "id": "parallax-enabled",
       "label": "Enable parallax",
       "type": "checkbox",
@@ -229,10 +248,25 @@
       "info": "Can enhance text visibility"
     },
     {
-      "type": "text",
+      "type": "html",
       "id": "title",
       "label": "Heading",
       "default": "Image with Text"
+    },
+    {
+      "id": "featured-content-color-desc",
+      "label": "Text Color Desc",
+      "type": "color"
+    },
+    {
+    "type": "range",
+    "id": "featured-content-size-desc",
+    "min": 5,
+    "max": 100,
+    "step": 1,
+    "unit": "px",
+    "label": "Text Size",
+    "default": 50
     },
     {
       "type": "richtext",
