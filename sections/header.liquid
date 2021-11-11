@@ -5,6 +5,7 @@
 {% comment %} Variables {% endcomment %}
 {% assign menu = section.settings.menu %}
 {% assign logo = section.settings.logo %}
+{% assign bg_color = section.settings.bg_color %}
 {% assign logo_height = section.settings.logo-height-range %}
 {% assign show_search = settings.search--show-in-header %}
 {% assign cart_type = settings.cart--type %}
@@ -21,6 +22,7 @@
       data-header-logo-type="overflowing"
     {% endif %}
   {% endif %}
+  style="background-color: {{ bg_color }};"
 >
 
   <noscript>
@@ -73,8 +75,9 @@
 
   <div class="header--container">
     <div class="header--left-side">
+
       {% if template == 'index' %}
-        <h1 class="header--logo">
+        <h1 class="header--logo header--logo_left">
           {%
             render 'framework--logo',
             logo: logo,
@@ -82,7 +85,7 @@
           %}
         </h1>
       {% else %}
-        <div class="header--logo">
+        <div class="header--logo header--logo_left">
           {%
             render 'framework--logo',
             logo: logo,
@@ -90,12 +93,21 @@
           %}
         </div>
       {% endif %}
+
       {%
         render 'framework--x-menu',
         js_class: 'XMenu',
         overlap_parent: 1,
         off_canvas: 'right-sidebar',
         handle: menu
+      %}
+    </div>
+
+    <div class="header--logo header--logo_middle">
+      {%
+        render 'framework--logo',
+        logo: logo,
+        height_range: logo_height
       %}
     </div>
 
@@ -203,6 +215,11 @@
       "type": "image_picker",
       "id": "logo",
       "label": "Logo image"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color"
     },
     {
       "label": "Custom logo height",
