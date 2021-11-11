@@ -1,0 +1,138 @@
+<div class="image-copy-section" style="background-color: {{ section.settings.background-color }};">
+
+    <div class="image-copy-container">
+        <div class="image-copy__img"><img src="{{ section.settings.image | img_url: '533x' }}" alt=""></div>
+        <div class="image-copy__copy">
+            <h2 class="image-copy__heading" style="font-size: {{ section.settings.heading-size }}px !important; color: {{ section.settings.heading-color }};">{{section.settings.heading}}</h2>
+            <p class="image-copy__desc" style="font-size: {{ section.settings.desc-size }}px !important; color: {{ section.settings.desc-color }};">{{section.settings.desc}}</p>
+            {% if section.settings.cta_label %}
+                <div class="image-copy__cta"><a href="{{section.settings.cta}}" class="cta__button">{{ section.settings.cta_label }}</a></div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+
+{% schema %}
+{
+  "name": "Image Copy",
+  "settings": [
+  {
+    "id": "background-color",
+    "label": "Background Color",
+    "type": "color"
+  },
+  
+  {
+    "id": "image",
+    "label": "Image",
+    "type": "image_picker"
+  },
+  {
+    "id": "heading",
+    "label": "Headng",
+    "type": "html"
+  },
+  {
+    "type": "range",
+    "id": "heading-size",
+    "min": 5,
+    "max": 100,
+    "step": 1,
+    "unit": "px",
+    "label": "Heading Size",
+    "default": 48
+  },
+  {
+    "id": "heading-color",
+    "label": "Heading Text Color",
+    "type": "color"
+  },
+  {
+    "id": "desc",
+    "label": "Copy",
+    "type": "html"
+  },
+  {
+    "type": "range",
+    "id": "desc-size",
+    "min": 5,
+    "max": 100,
+    "step": 1,
+    "unit": "px",
+    "label": "Copy Size",
+    "default": 16
+  },
+  {
+    "id": "desc-color",
+    "label": "Copy Text Color",
+    "type": "color"
+  },
+  {
+    "id": "cta_label",
+    "label": "CTA Label",
+    "type": "text"
+  },
+  {
+    "id": "cta",
+    "label": "CTA URL",
+    "type": "url"
+  }
+
+  ],
+  "presets": [
+    {
+      "name": "Image Copy",
+      "category": "Image"
+    }
+  ]
+}
+{% endschema %}
+
+<style>
+
+
+
+
+    .image-copy-section{
+        background-color: #732c63;
+        
+    }
+
+    .image-copy-container{
+        max-width: 1200px;
+
+        display: flex;
+        gap: 111px;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto;
+        padding: 68px 10px;
+    }
+    .image-copy__heading{
+        margin-top: 20px;
+    }
+    .image-copy__img, .image-copy__copy{
+        width: 50%;
+    }
+    .image-copy__desc{
+        margin: 20px 0;
+    }
+    .image-copy__cta{
+        margin-top: 56px;
+    }
+
+    @media only screen and (max-width: 800px) {
+        .image-copy-container{
+            flex-direction: column;
+            padding: 40px 25px;
+            gap: 0px;
+        }
+        .image-copy__img, .image-copy__copy{
+            width: 100%
+        }
+
+    }
+
+
+</style>

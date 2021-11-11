@@ -46,8 +46,8 @@
 {% endif %}
 
 <div
-  class="featured-grid--root"
-  style="{% render 'framework--background-colors', bg_color: bg_color %}"
+  class="featured-grid--root margin-remove-desktop"
+  style="background-color: {{ section.settings.main-bg-color }}"
   data-section-id="{{ section.id }}"
   data-js-class="FrameworkFeaturedGrid"
   data-alternative-color="{{ alt_color }}"
@@ -234,16 +234,9 @@
       "info": "Darkening the image can enhance text visibility"
     },
     {
-      "id": "background-color",
-      "label": "Background color",
-      "type": "select",
-      "options": [
-        { "label": "None", "value": "none" },
-        { "label": "Light grey", "value": "light" },
-        { "label": "Dark", "value": "dark" },
-        { "label": "Accent", "value": "accent" }
-      ],
-      "default": "light"
+      "id": "main-bg-color",
+      "label": "Background Color",
+      "type": "color"
     },
     {
       "id": "spacing",

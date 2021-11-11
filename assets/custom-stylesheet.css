@@ -1,0 +1,57 @@
+@font-face {
+    font-family: "ApocRegular";
+    src: url("apoc.woff") format("woff"),
+    url("apoc.woff2") format("woff2");
+  }
+
+@font-face {
+    font-family: 'Apoc';
+    src: url('apoc.otf');
+}
+
+@font-face {
+    font-family: 'Atak';
+    src: url('atak.otf');
+}
+
+h1, h2{
+    font-family: 'Apoc' !important;
+    text-transform: uppercase !important;
+}
+
+h1, h2{
+    font-size: 48px !important;
+  }
+h3{
+    font-size: 36px !important;
+    font-family: 'Atak' !important;
+}
+p, button, span, div, li, ul, a{
+    font-family: 'Atak' !important;
+}
+
+@media only screen and (max-width: 768px) {
+    h1, h2{
+        font-size: 42px !important;
+      }
+    h3{
+        font-size: 22px !important;
+    }
+    
+}
+
+
+.layout--main-content{
+    padding: 0 !important;
+}
+
+.template-page--root{
+    background-color: #D1D6DD !important;
+    max-width: 100% !important;
+    width: 100% !important;
+}
+
+.template-page--root > div{
+    max-width: 600px !important;
+    margin: 0 auto !important;
+}
